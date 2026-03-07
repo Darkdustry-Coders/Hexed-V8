@@ -1,0 +1,63 @@
+import groovy.json.JsonSlurper
+
+plugins {
+    id "java"
+    id "org.jetbrains.kotlin.jvm" version "2.3.0"
+    id "com.google.devtools.ksp" version "2.3.0"
+}
+
+def mod = new JsonSlurper().parse("$rootDir/src/main/resources/plugin.json" as File)
+def workspacePath = gradle.ext.workspacePath
+
+group = "mindurka"
+version = "${mod['version']}"
+
+compileJava.options.encoding = "UTF-8"
+
+repositories {
+    maven { url "$workspacePath/.cache/maven" }
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url "https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository" }
+
+}
+
+dependencies {
+    compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
+    compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
+    compileOnly "com.github.Anuken.Mindustry:server:$mindustryVersion"
+
+    compileOnly "mindurka:CorePlugin:latest-SNAPSHOT"
+    compileOnly "mindurka.coreplugin:annotations:latest-SNAPSHOT"
+    compileOnly "mindurka.coreplugin:buildExtras:latest-SNAPSHOT"
+
+    ksp "mindurka.coreplugin:processor:latest-SNAPSHOT"
+    compileOnly "org.jetbrains.kotlin:kotlin-reflect"
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+}
+
+allprojects {
+    tasks.withType(JavaCompile).configureEach {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+kotlin {
+    jvmToolchain(21)
+}
+
+tasks.register("copyJar", Copy) {
+    dependsOn jar
+    from jar.archiveFile
+    into file("$workspacePath/.bin")
+    rename { "Hexed.jar" }
+}
+
+build.dependsOn copyJar

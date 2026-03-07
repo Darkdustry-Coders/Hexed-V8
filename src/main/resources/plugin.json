@@ -1,0 +1,9 @@
+{
+    "name": "hexed",
+    "minGameVersion": "155",
+    "displayName": "Hexed Plugin",
+    "author": "kellaux",
+    "description": "A special battle-royal-like gamemode for Mindurka.",
+    "version": "4",
+    "main": "hexed.Main"
+}
