@@ -20,4 +20,6 @@ if (System.env["MINDURKA_WORKSPACE"] == null) {
 }
 gradle.ext.workspacePath = workspacePath
 
+apply from: "$workspacePath/buildscript/assets/shared.settings.gradle"
+
 rootProject.name = 'Hexed'

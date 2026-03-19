@@ -2,8 +2,8 @@ import groovy.json.JsonSlurper
 
 plugins {
     id "java"
-    id "org.jetbrains.kotlin.jvm" version "2.3.0"
-    id "com.google.devtools.ksp" version "2.3.0"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 def mod = new JsonSlurper().parse("$rootDir/src/main/resources/plugin.json" as File)
@@ -17,22 +17,20 @@ compileJava.options.encoding = "UTF-8"
 repositories {
     maven { url "$workspacePath/.cache/maven" }
     mavenCentral()
-    maven { url 'https://jitpack.io' }
     maven { url "https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository" }
+    maven { url "https://jitpack.io" }
 
 }
 
 dependencies {
-    compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
-    compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
-    compileOnly "com.github.Anuken.Mindustry:server:$mindustryVersion"
+    compileOnly libs.bundles.mindustry
+    compileOnly libs.kotlin.reflect
 
     compileOnly "mindurka:CorePlugin:latest-SNAPSHOT"
     compileOnly "mindurka.coreplugin:annotations:latest-SNAPSHOT"
     compileOnly "mindurka.coreplugin:buildExtras:latest-SNAPSHOT"
 
     ksp "mindurka.coreplugin:processor:latest-SNAPSHOT"
-    compileOnly "org.jetbrains.kotlin:kotlin-reflect"
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
