@@ -24,6 +24,7 @@ repositories {
 
 dependencies {
     compileOnly libs.bundles.mindustry
+    compileOnly libs.kotlin.coro
     compileOnly libs.kotlin.reflect
 
     compileOnly "mindurka:CorePlugin:latest-SNAPSHOT"
