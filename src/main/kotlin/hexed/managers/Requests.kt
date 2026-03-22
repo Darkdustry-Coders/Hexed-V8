@@ -2,7 +2,6 @@ package hexed.managers
 
 import arc.struct.ObjectMap
 import arc.struct.Seq
-import arc.util.Log
 import buj.tl.Tl
 import hexed.structures.Member
 import hexed.structures.Party
@@ -13,7 +12,7 @@ object Requests : Manager {
     private val outcoming = ObjectMap<Member, Seq<Party>>()
     private val incoming = ObjectMap<Party, Seq<Member>>()
 
-    override fun init() {}
+    override fun play() {}
     override fun reset() {
         outcoming.clear()
         incoming.clear()

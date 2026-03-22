@@ -2,64 +2,14 @@ package hexed.generation
 
 import arc.struct.Seq
 import hexed.generation.filters.LakesNoiseFilter
-import mindustry.content.Blocks.air
-import mindustry.content.Blocks.arkyciteFloor
-import mindustry.content.Blocks.arkyicStone
-import mindustry.content.Blocks.basalt
-import mindustry.content.Blocks.beryllicStoneWall
-import mindustry.content.Blocks.carbonStone
-import mindustry.content.Blocks.carbonWall
-import mindustry.content.Blocks.charr
-import mindustry.content.Blocks.cryofluid
-import mindustry.content.Blocks.crystalFloor
-import mindustry.content.Blocks.crystallineStoneWall
-import mindustry.content.Blocks.dacite
-import mindustry.content.Blocks.darksand
-import mindustry.content.Blocks.darksandTaintedWater
-import mindustry.content.Blocks.darksandWater
-import mindustry.content.Blocks.dirt
-import mindustry.content.Blocks.dirtWall
-import mindustry.content.Blocks.hotrock
-import mindustry.content.Blocks.ice
-import mindustry.content.Blocks.iceSnow
-import mindustry.content.Blocks.iceWall
-import mindustry.content.Blocks.magmarock
-import mindustry.content.Blocks.moss
-import mindustry.content.Blocks.mud
-import mindustry.content.Blocks.regolith
-import mindustry.content.Blocks.regolithWall
-import mindustry.content.Blocks.sand
-import mindustry.content.Blocks.shale
-import mindustry.content.Blocks.shaleWall
-import mindustry.content.Blocks.slag
-import mindustry.content.Blocks.snow
-import mindustry.content.Blocks.snowWall
-import mindustry.content.Blocks.sporeMoss
-import mindustry.content.Blocks.sporeWall
-import mindustry.content.Blocks.stoneWall
-import mindustry.content.Blocks.tar
-import mindustry.maps.filters.BlendFilter
 import mindustry.maps.filters.NoiseFilter
+import mindustry.maps.filters.BlendFilter
+import mindustry.content.Blocks.*
+import mindustry.maps.filters.ScatterFilter
 
 // The best way to generate maps
 // Ultra compact
 object Generators {
-    val generators: Seq<Generator> = Seq()
-
-    fun random(previous: Generator?): Generator {
-        return generators.random(previous)
-    }
-
-    fun findByName(name: String): Generator? {
-        return try {
-            val index = name.toInt()
-            if (index in 1..generators.size) generators.get(index - 1)
-            else null
-        } catch (_: NumberFormatException) {
-            generators.find { generator: Generator -> generator.name.equals(name, ignoreCase = true) }
-        }
-    }
-
     val tarFields = SerpuloGenerator(
         "Tar Fields", sand,
 
@@ -98,16 +48,6 @@ object Generators {
 
     val volcano = SerpuloGenerator(
         "Volcano", darksand,
-
-//        NoiseFilter().apply {
-//            floor = sand
-//            block = sandWall
-//            scl = 200f
-//            threshold = 0.6f
-//            octaves = 6f
-//            falloff = 0.6f
-//            tilt = -0.2f
-//        },
 
         NoiseFilter().apply {
             floor = hotrock
@@ -207,7 +147,7 @@ object Generators {
         LakesNoiseFilter().apply {
             floor = darksandTaintedWater
             scl = 15f
-            threshold = 0.76f // 0.76
+            threshold = 0.76f
             minRadius = 0
         }
     )
@@ -283,59 +223,50 @@ object Generators {
     )
 
     val erekir = ErekirGenerator(
-        "Erekir", carbonStone,
-        NoiseFilter().apply {
-            scl = 219.56f
-            threshold = 0.42f
-            octaves = 3.02f
-            floor = carbonStone
-            block = carbonWall
+        "Erekir", darksand,
+
+        ScatterFilter().apply {
+            chance = 1f
+            floor = carbonStone.asFloor()
         },
 
-        NoiseFilter().apply {
-            scl = 137.22f
-            threshold = 0.60f
-            octaves = 3.02f
-            floor = crystalFloor
-            block = crystallineStoneWall
-        },
-
-        // region lakes
-
-        NoiseFilter().apply {
-            threshold = 0.8f
+        LakesNoiseFilter().apply {
+            minRadius = 10
+            scl = 30f
+            threshold = 0.92f
+            falloff = 0f
+            octaves = 10f
             floor = arkyciteFloor
             block = air
         },
 
-        NoiseFilter().apply {
-            threshold = 0.8f
+        LakesNoiseFilter().apply {
+            minRadius = 10
+            scl = 30f
+            threshold = 0.92f
+            falloff = 0f
+            octaves = 10f
             floor = slag
             block = air
         },
-
-        BlendFilter().apply {
-            block = arkyciteFloor
-            floor = arkyicStone
-        },
-
-        BlendFilter().apply {
-            block = arkyciteFloor
-            floor = beryllicStoneWall
-        },
-
-        BlendFilter().apply {
-            block = slag
-            floor = regolith
-        },
-
-        BlendFilter().apply {
-            block = slag
-            floor = regolithWall
-        }
-
-        // endregion
     )
+
+    val generators: Seq<Generator> = Seq<Generator>().addAll(tarFields, volcano, spores, winter, erekir)
+
+    fun random(previous: Generator?): Generator {
+        return generators.random(previous)
+    }
+
+    fun findByName(name: String): Generator? {
+        return try {
+            val index = name.toInt()
+            if (index in 1..generators.size) generators.get(index - 1)
+            else null
+        } catch (_: NumberFormatException) {
+            generators.find { generator: Generator -> generator.name.equals(name, ignoreCase = true) }
+        }
+    }
+
 }
 
 

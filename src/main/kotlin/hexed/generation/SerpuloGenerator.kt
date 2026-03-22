@@ -24,8 +24,7 @@ class SerpuloGenerator : Generator {
     )
 
     override fun generateOres(input: GenerateInput) {
-        applyFilters(
-            input, *getOreFilters(
+        applyFilters(input, *getOreFilters(
                 -0.04f,
                 8f,
                 Blocks.oreCopper,
@@ -34,7 +33,7 @@ class SerpuloGenerator : Generator {
                 Blocks.oreCoal,
                 Blocks.oreTitanium,
                 Blocks.oreThorium
-            )
+            ),
         )
     }
 }

@@ -2,7 +2,6 @@ package hexed
 
 import arc.struct.Seq
 import arc.util.Align
-import arc.util.Log
 import buj.tl.Tl
 import hexed.managers.Game
 import hexed.managers.Hexes
@@ -13,7 +12,6 @@ import mindustry.core.UI
 import mindustry.gen.Call
 import mindustry.gen.Groups
 import mindustry.gen.Player
-
 
 object Renderer {
     // region show

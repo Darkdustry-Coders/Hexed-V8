@@ -3,11 +3,8 @@ package hexed
 import arc.math.Mathf
 import arc.struct.ObjectMap
 import arc.struct.Seq
-import arc.util.Log
-import arc.util.Time
 import arc.util.Timer
 import buj.tl.Tl
-import hexed.JoinMenu.JoinState
 import hexed.managers.Requests
 import hexed.managers.Session
 import hexed.structures.Member

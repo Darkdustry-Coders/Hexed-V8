@@ -7,7 +7,6 @@ import hexed.utils.HexUtils
 import mindustry.content.Blocks
 import mindustry.content.Planets
 import mindustry.game.Rules
-import mindustry.maps.filters.ClearFilter
 import mindustry.maps.filters.GenerateFilter
 import mindustry.maps.filters.GenerateFilter.GenerateInput
 import mindustry.maps.filters.NoiseFilter
@@ -15,6 +14,7 @@ import mindustry.world.Block
 import mindustry.world.Tile
 
 import hexed.Config.RADIUS
+import hexed.generation.filters.SolidNoiseFilter
 import java.util.BitSet
 
 class ErekirGenerator : Generator {
@@ -36,36 +36,38 @@ class ErekirGenerator : Generator {
 
     override fun generateOres(input: GenerateInput) {
         applyFilters(
-            input, *getOreFilters(
-                -0.04f, 4f,
+            input,
+            SolidNoiseFilter().apply {
+                scl = 25f
+                threshold = 0.90f
+                octaves = 10f
+                falloff = 0f
+                block = Blocks.duneWall
+            },
+
+            *getOreFilters(
+                0f, 4f,
                 Blocks.oreBeryllium,
                 Blocks.oreTungsten,
                 Blocks.oreCrystalThorium
-            )
-        )
+            ),
 
-        applyFilters(
-            input, *getOreFilters(
-                -0.08f, 2f,
-                Blocks.wallOreBeryllium,
+            *getOreFilters(
+                -0.15f, 20f,
+                Blocks.wallOreThorium,
                 Blocks.wallOreTungsten,
-                Blocks.wallOreThorium
-            )
-        )
+                Blocks.wallOreBeryllium,
 
-        applyFilters(
-            input,
+                ),
+
             NoiseFilter().apply {
                 scl = 10f
                 threshold = 0.6f
                 floor = Blocks.air
                 block = Blocks.graphiticWall
             },
+        )
 
-            ClearFilter().apply {
-                target = Blocks.graphiticWall
-                replace = Blocks.carbonStone
-            })
     }
 
     fun generateVents() {

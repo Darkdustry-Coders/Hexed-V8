@@ -8,9 +8,9 @@ import mindustry.game.Team
 // Doesn't exist for derelict Team
 class Party(var leader: Member) {
     val members: Seq<Member> = Seq()
-    var active: Boolean = false;
+    var active: Boolean = false
     var kills: Int = 0
-    var lastDamage: Party? = null;
+    var lastDamage: Party? = null
 
     val name: String get() = leader.name
 

@@ -60,6 +60,7 @@ object Config {
         it.enemyCoreBuildRadius = (RADIUS * Vars.tilesize).toFloat()
 
         it.pvp = true
+        it.waves = false
         it.pvpAutoPause = false
         it.canGameOver = false
 

@@ -5,7 +5,6 @@ import arc.math.Mathf
 import arc.math.geom.Bresenham2
 import arc.math.geom.Geometry
 import arc.struct.StringMap
-import arc.util.Log
 import arc.util.Tmp
 import hexed.Config
 import hexed.Config.RADIUS
@@ -35,10 +34,6 @@ abstract class Generator(
     val filler: Block,
     vararg val filters: GenerateFilter
 ) {
-
-    init {
-        Generators.generators.add(this)
-    }
 
     fun generate(tiles: Tiles) {
         // First, fill the entire map
@@ -80,7 +75,7 @@ abstract class Generator(
     }
 
     fun generateCore() {
-        val radius = if (this.planet == Planets.serpulo) 5 else 5
+        val radius = if (this.planet == Planets.serpulo) 5 else 7 // nice
 
         HexUtils.getHexes { x, y ->
             Vars.world.tile(x, y)?.getLinkedTilesAs(ConstructBlock.get(radius)) {
@@ -127,17 +122,21 @@ abstract class Generator(
         }
     }
 
-    fun getOreFilters(oreThreshold: Float, oreScale: Float, vararg ores: Block): Array<OreFilter> {
-        return ores
-            .filterIsInstance<OreBlock>()
-            .map { block ->
-                WallOreFilter().apply {
-                    threshold = block.oreThreshold + oreThreshold
-                    scl = block.oreScale + oreScale
-                    ore = block
-                    wallOre = block.wallOre
-                }
+    fun getOreFilters(
+        oreThreshold: Float, oreScale: Float, vararg ores: Block
+    ): Array<OreFilter> {
+        return ores.filterIsInstance<OreBlock>().map { block ->
+            val filter = if (block.wallOre) {
+                WallOreFilter()
+            } else {
+                OreFilter()
             }
-            .toTypedArray()
+
+            filter.apply {
+                threshold = block.oreThreshold + oreThreshold
+                scl = block.oreScale + oreScale
+                ore = block
+            }
+        }.toTypedArray()
     }
 }

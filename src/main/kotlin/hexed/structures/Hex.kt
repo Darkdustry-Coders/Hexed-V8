@@ -37,7 +37,7 @@ class Hex(val x: Int, val y: Int, val id: Int) : Position {
         needsUpdate = false
         updateProgress()
 
-        val team = getTeam() ?: return
+        val team = getTeam()
 
         owner = Session.parties[team]
         if (owner == null) return
@@ -49,13 +49,13 @@ class Hex(val x: Int, val y: Int, val id: Int) : Position {
 
     }
 
-    fun getTeam(): Team? {
+    fun getTeam(): Team {
         if (hasCore) return Vars.world.tile(x, y).team()
 
         val data = Vars.state.teams.getActive().max { team -> getProgress(team!!.team).toFloat() }
-        if (data == null) return null
+        if (data == null) return Team.derelict
 
-        if (getProgress(data.team) < Config.PROGRESS_REQUIREMENT) return null
+        if (getProgress(data.team) < Config.PROGRESS_REQUIREMENT) return Team.derelict
 
         return data.team
     }

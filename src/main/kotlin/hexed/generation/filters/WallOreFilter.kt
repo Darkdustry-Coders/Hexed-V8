@@ -8,6 +8,7 @@ class WallOreFilter : OreFilter() {
 
     override fun apply(input: GenerateInput) {
         if (wallOre != input.block.solid && input.floor.asFloor().hasSurface().not()) return
+        if (!input.block.solid) return
 
         val noise = noise(input.x.toFloat(), input.y + input.x * tilt, scl, 1f, octaves, falloff)
         if (noise <= threshold) return

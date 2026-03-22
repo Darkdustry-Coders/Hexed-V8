@@ -6,7 +6,6 @@ import arc.graphics.Color
 import arc.math.Mathf
 import arc.struct.ObjectMap
 import arc.struct.Seq
-import arc.util.Log
 import arc.util.Time
 import arc.util.Timer
 import buj.tl.Tl.send
@@ -38,7 +37,7 @@ object Session : Manager {
         }
     }
 
-    override fun init() {
+    override fun play() {
 
     }
 
@@ -190,11 +189,10 @@ object Session : Manager {
         val spawned = Team.all.filter { it.active() }
         val candidates = Team.all.filter { !it.active() && it != Team.derelict }
 
-        if (spawned.isEmpty()) return candidates.random()
+        if (spawned.isEmpty()) return candidates.randomOrNull()
 
-        return candidates.maxByOrNull { team: Team ->
-            val contrast = spawned.sumOf { colorDistance(team.color, it.color).toDouble() }
-            contrast + 1f
+        return candidates.maxByOrNull { candidate ->
+            spawned.minOf { colorDistance(candidate.color, it.color) }
         }
     }
 

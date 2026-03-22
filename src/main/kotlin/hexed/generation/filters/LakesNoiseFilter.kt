@@ -12,7 +12,6 @@ class LakesNoiseFilter : NoiseFilter() {
 
     var minRadius: Int = 25
     var maxRadius: Int = Config.RADIUS
-
     var targets: Seq<Block?> = Seq()
 
     override fun apply(input: GenerateInput) {

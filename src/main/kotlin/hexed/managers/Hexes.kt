@@ -46,7 +46,7 @@ object Hexes : Manager {
         }
     }
 
-    override fun init() {
+    override fun play() {
         getHexes { x, y -> hexes.add(Hex(x, y, hexes.size)) }
     }
 

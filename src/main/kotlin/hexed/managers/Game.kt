@@ -64,7 +64,7 @@ object Game {
     }
 
     fun play() {
-        managers.each { it.init() }
+        managers.each { it.play() }
         generator.applyRules(Vars.state.rules) // RTV does not work without this (reason unknown)
         restarting = false
         counter = Config.ROUND_TIME
