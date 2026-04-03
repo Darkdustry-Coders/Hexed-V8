@@ -28,12 +28,12 @@ object PartyUtils {
         val party = Session.getParty(member)
 
         if (member.isDerelict) {
-            Tl.send(member.player).done("{commands.a.derelict}")
+            Tl.send(member.player).done("{commands.accept.derelict}")
             return false
         }
 
         if (!member.isLeaderOf(party)) {
-            Tl.send(member.player).done("{commands.a.not-leader}")
+            Tl.send(member.player).done("{commands.accept.not-leader}")
             return false
         }
 

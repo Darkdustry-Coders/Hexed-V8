@@ -232,26 +232,33 @@ object Generators {
 
         LakesNoiseFilter().apply {
             minRadius = 10
-            scl = 30f
-            threshold = 0.92f
+            scl = 35f
+            threshold = 0.94f
             falloff = 0f
-            octaves = 10f
+            octaves = 1f
             floor = arkyciteFloor
             block = air
         },
 
         LakesNoiseFilter().apply {
             minRadius = 10
-            scl = 30f
-            threshold = 0.92f
+            scl = 35f
+            threshold = 0.94f
             falloff = 0f
-            octaves = 10f
+            octaves = 1f
             floor = slag
             block = air
         },
     )
 
+    val mixtech = MixtechGenerator(
+        "Mixtech", darksand,
+
+        )
+
     val generators: Seq<Generator> = Seq<Generator>().addAll(tarFields, volcano, spores, winter, erekir)
+    //val generators: Seq<Generator> = Seq<Generator>().addAll(erekir)
+
 
     fun random(previous: Generator?): Generator {
         return generators.random(previous)

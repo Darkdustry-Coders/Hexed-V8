@@ -15,19 +15,17 @@ import mindustry.world.Tile
 
 import hexed.Config.RADIUS
 import hexed.generation.filters.SolidNoiseFilter
-import hexed.generation.filters.WallOreFilter
-import mindustry.maps.filters.OreFilter
 import java.util.BitSet
 
-class ErekirGenerator : Generator {
+class MixtechGenerator : Generator {
     constructor(name: String, filler: Block, vararg filters: GenerateFilter) : super(
-        name, Planets.erekir, Config.erekirBase, { rules -> Config.erekirRules.get(rules) }, filler, *filters
+        name, Planets.sun, Config.mixtechBase, { rules -> Config.mixtechRules.get(rules) }, filler, *filters
     )
 
     constructor(name: String, ruleSetter: Cons<Rules>, filler: Block, vararg filters: GenerateFilter) : super(
-        name, Planets.erekir, Config.erekirBase, { rules ->
+        name, Planets.sun, Config.mixtechBase, { rules ->
             ruleSetter.get(rules)
-            Config.erekirRules.get(rules)
+            Config.mixtechRules.get(rules)
         }, filler, *filters
     )
 
@@ -59,7 +57,7 @@ class ErekirGenerator : Generator {
                 Blocks.wallOreThorium,
                 Blocks.wallOreTungsten,
 
-            ),
+                ),
 
             NoiseFilter().apply {
                 scl = 20f
@@ -69,8 +67,17 @@ class ErekirGenerator : Generator {
             },
 
             *getOreFilters(
-                -0.15f, -5f,
+                -0.14f, -5f,
                 Blocks.wallOreBeryllium
+            ),
+
+            *getOreFilters(
+                -0.04f,
+                8f,
+                Blocks.oreCopper,
+                Blocks.oreLead,
+                Blocks.oreCoal,
+                Blocks.oreTitanium,
             ),
         )
 

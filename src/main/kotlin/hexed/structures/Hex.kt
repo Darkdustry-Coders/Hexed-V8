@@ -19,6 +19,7 @@ import mindustry.world.blocks.storage.CoreBlock
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild
 
 import hexed.Config.RADIUS
+import mindustry.entities.Damage
 import java.util.Arrays
 
 class Hex(val x: Int, val y: Int, val id: Int) : Position {
@@ -63,11 +64,14 @@ class Hex(val x: Int, val y: Int, val id: Int) : Position {
     fun destroy(defender: Team, attacker: Team?) {
         if (attacker == Team.derelict) return
 
+        //Damage.dynamicExplosion(x.toFloat(), y.toFloat(), 10f, 10f, 10f, RADIUS.toFloat(), true)
+
         HexUtils.iterateHex(x, y, RADIUS) {
             val build = it?.build ?: return@iterateHex
             if (!it.breakable() || it.block() is CoreBlock || it.team() != defender) return@iterateHex
 
-            if (Math.random() < 0.1) {
+            if (Math.random() < 0.2) {
+
                 Core.app.post {
                     Call.effect(Fx.explosion, it.x.toFloat(), it.y.toFloat(), 90f, Color.white)
                 }

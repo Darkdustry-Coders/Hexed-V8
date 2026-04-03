@@ -31,13 +31,13 @@ owner = [lightgray]Hex [accent]#{n}
       = [accent][Captured by {player}[accent]]
 
 [commands]
-team = [scarlet]You are already on a team. Use /s first.
+team = [scarlet]You are already on a team. Use /spectate first.
 no-players = [scarlet]No available players.
 player-not-found = [scarlet]Player not found.
 team-change-leader = [accent]Now {player}[accent] is the team leader.
 
 [commands.lb]
-description = Show the current leaderboard
+description = Show the current leaderboard.
 params = []
 
 title = [accent]Leaderboard
@@ -46,21 +46,21 @@ title = [accent]Leaderboard
 
 player = \n[accent]{pos}. [white]{name}[lightgray] [white]({controlled} hexes)
 
-[commands.s]
+[commands.spectate]
 description = Switch to spectator mode or return to the game.
 params = []
 game = Returning to the game.
 spectator = Switching to spectator mode.
 
-[commands.j]
+[commands.join]
 description = Invite to join a team.
 params = []
 title = Available players
 sent = {player}[white] wants to join your team.
-     = Enter [accent]/a
+     = Enter [accent]/accept
 invite-sent = [green]Invitation sent
 
-[commands.a]
+[commands.accept]
 description = Accept a player into the team.
 params = []
 title = Team invites
@@ -68,4 +68,4 @@ not-leader = [scarlet]Only the team leader can do this.
 no-players = [scarlet]No available invites.
 derelict = [scarlet]Not available in spectator mode.
 success = {player}[white] has joined the team.
-invite-success = [green] Accepted invite
+invite-success = [green]Accepted invite
