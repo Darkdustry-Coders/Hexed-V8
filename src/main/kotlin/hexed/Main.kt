@@ -8,6 +8,7 @@ import hexed.managers.Game
 import mindurka.api.Consts
 import mindurka.api.Gamemode
 import mindurka.coreplugin.CorePlugin
+import mindurka.util.prefixed
 import mindustry.Vars
 import mindustry.core.NetServer.TeamAssigner
 import mindustry.game.Team
@@ -15,7 +16,7 @@ import mindustry.mod.Plugin
 
 class Main : Plugin() {
     override fun init() {
-        CorePlugin.init(javaClass.classLoader)
+        CorePlugin.init(javaClass.classLoader.prefixed("hexed"))
         Gamemode.maps = HexMapManager()
 
         // Assigned players to derelict team by default

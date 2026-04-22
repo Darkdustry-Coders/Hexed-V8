@@ -34,23 +34,6 @@ dependencies {
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
-allprojects {
-    tasks.withType(JavaCompile).configureEach {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-kotlin {
-    jvmToolchain(21)
-}
-
 tasks.register("copyJar", Copy) {
     dependsOn jar
     from jar.archiveFile
