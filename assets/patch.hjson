@@ -1,3 +1,4 @@
+name: hexed patch
 Blocks.impactReactor.liquidCapacity: 400f
 Blocks.thoriumReactor.liquidCapacity: 400f
 Blocks.hyperProcessor.liquidCapacity: 400f

@@ -35,7 +35,10 @@ class Main : Plugin() {
             }
 
             val generator = if (args.isNotEmpty()) {
-                Generators.findByName(args[0]) ?: Generators.random(null)
+                Generators.findByName(args[0]) ?: run {
+                    Log.err("Map with this name was not found.")
+                    return@register
+                }
             } else {
                 Generators.random(null)
             }

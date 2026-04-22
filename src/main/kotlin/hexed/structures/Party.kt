@@ -40,7 +40,7 @@ class Party(var leader: Member) {
         members.each {
             Tl.send(it.player)
                 .put("player", member.name)
-                .done("{commands.a.success}")
+                .done("{commands.accept.success}")
         }
     }
 

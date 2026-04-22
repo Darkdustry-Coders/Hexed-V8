@@ -34,7 +34,7 @@ class JoinMenu(val caller: Member) {
                 Timer.schedule({closeDialog()}, 1f)
             }
 
-            title("{commands.j.title}")
+            title("{commands.join.title}")
 
             val start = (page - 1) * pageSize
             val end = minOf(start + pageSize, parties.size)
@@ -48,7 +48,7 @@ class JoinMenu(val caller: Member) {
 
                 val text = when (state) {
                     JoinState.NONE -> party.name
-                    JoinState.SENT -> Tl.fmt(caller.player).done("{commands.j.invite-sent}")
+                    JoinState.SENT -> Tl.fmt(caller.player).done("{commands.join.invite-sent}")
                 }
 
                 optionText(text) {
@@ -102,7 +102,7 @@ class AcceptMenu(val caller: Member) {
         var page = startPage.coerceIn(1, maxPage)
 
         caller.player.openMenu {
-            title("{commands.a.title}")
+            title("{commands.accept.title}")
 
             val start = (page - 1) * pageSize
             val end = minOf(start + pageSize, members.size)
@@ -116,7 +116,7 @@ class AcceptMenu(val caller: Member) {
                     val state = incoming.get(member, AcceptState.NONE)
                     val text = when (state) {
                         AcceptState.NONE -> member.name
-                        AcceptState.ACCEPT -> Tl.fmt(caller.player).done("{commands.a.invite-success}")
+                        AcceptState.ACCEPT -> Tl.fmt(caller.player).done("{commands.accept.invite-success}")
                     }
 
                     optionText(text) {

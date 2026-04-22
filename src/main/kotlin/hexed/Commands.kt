@@ -1,5 +1,6 @@
 package hexed
 
+import arc.util.Log
 import buj.tl.Tl
 import hexed.managers.Session
 import hexed.utils.PartyUtils
@@ -7,12 +8,12 @@ import mindurka.annotations.Command
 import mindustry.gen.Player
 
 @Command
-private fun s(caller: Player) {
+private fun spectate(caller: Player) {
     val member = Session.getMember(caller) ?: return
 
     if (member.isDerelict) {
         Session.spawn(member)
-        Tl.send(caller).done("{commands.s.game}")
+        Tl.send(caller).done("{commands.spectate.game}")
         return
     }
 
@@ -22,7 +23,7 @@ private fun s(caller: Player) {
 
     Session.leave(member)
 
-    Tl.send(caller).done("{commands.s.spectator}")
+    Tl.send(caller).done("{commands.spectate.spectator}")
 }
 
 @Command
@@ -31,7 +32,7 @@ private fun lb(caller: Player) {
 }
 
 @Command
-private fun j(caller: Player) {
+private fun join(caller: Player) {
     val member = Session.getMember(caller) ?: return
     if(!PartyUtils.canJoin(member)) return
 

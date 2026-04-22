@@ -31,7 +31,7 @@ object Requests : Manager {
 
         Tl.send(target.leader.player)
             .put("player", sender.name)
-            .done("{commands.j.sent}")
+            .done("{commands.join.sent}")
 
     }
 

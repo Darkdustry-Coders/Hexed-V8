@@ -30,6 +30,10 @@ object Config {
     val erekirBase: Schematic = Schematics.readBase64(
         "bXNjaAF4nGNgZWBlZmDJS8xNZWC72HCx+WI7A3dKanFyUWZBSWZ+HgMDA1tOYlJqTjEDU3QsIwNPcn5Rqm5yZkliSmoOUJKRgYEJCBkA4IsSVg=="
     )
+    val mixtechBase: Schematic = Schematics.readBase64(
+        "bXNjaAF4nGNgZWBlZmDJS8xNZWC72HCx+WI7A3dKanFyUWZBSWZ+HgMDA1tOYlJqTjEDU3QsIwNPcn5Rqm5yZkliSmoOUJKRgYEJCBkA4IsSVg=="
+    )
+
 
     val serpuloLoadout: Seq<ItemStack> = ItemStack.list(
         Items.copper, 350,
@@ -45,6 +49,10 @@ object Config {
         Items.tungsten, 350,
         Items.graphite, 400,
         Items.silicon, 300
+    )
+
+    val mixtechLoadout: Seq<ItemStack> = ItemStack.list(
+
     )
 
     val defaultRules = Cons { it: Rules ->
@@ -79,33 +87,21 @@ object Config {
     }
 
     val erekirRules = Cons { it: Rules ->
-        // Just random values
         it.loadout = erekirLoadout
-        it.buildCostMultiplier = 0.8f
-        it.buildSpeedMultiplier = 2.5f
-
-        it.blockHealthMultiplier = 1.25f
-        it.blockDamageMultiplier = 0.75f
-        it.unitBuildSpeedMultiplier = 0.75f
     }
 
     val serpuloRules = Cons { it: Rules ->
-        // Just random values x2
         it.loadout = serpuloLoadout
-
-        it.buildCostMultiplier = 0.8f
         it.buildSpeedMultiplier = 2f
-
-        it.blockHealthMultiplier = 1.5f
-        it.blockDamageMultiplier = 0.75f
-
-        it.unitDamageMultiplier = 0.75f
-        it.unitBuildSpeedMultiplier = 1f
 
         // Less scrap
         Blocks.oreScrap.asFloor().oreThreshold = 0.9f
         Blocks.oreScrap.asFloor().oreScale = 20f
     }
+
+    val mixtechRules = Cons { it: Rules -> {
+
+    }}
 
 }
 
