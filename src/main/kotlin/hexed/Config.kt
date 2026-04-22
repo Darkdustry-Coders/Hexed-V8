@@ -57,9 +57,9 @@ object Config {
 
     val defaultRules = Cons { it: Rules ->
         // Required by CorePlugin
-        it.modeName = "hexed"
+        it.modeName = "hexed-pvp"
         it.tags.put("mdrk.format", "1")
-        it.tags.put("mdrk.gamemode", "hexed")
+        it.tags.put("mdrk.gamemode", "hexed-pvp")
 
 
         // For tests
