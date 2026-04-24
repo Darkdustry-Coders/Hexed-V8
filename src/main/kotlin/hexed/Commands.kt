@@ -40,7 +40,7 @@ private fun join(caller: Player) {
 }
 
 @Command
-private fun a(caller: Player) {
+private fun accept(caller: Player) {
     val member = Session.getMember(caller) ?: return
     if(!PartyUtils.canAccept(member)) return
 
