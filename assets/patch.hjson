@@ -1,4 +1,10 @@
 name: hexed patch
-Blocks.impactReactor.liquidCapacity: 400f
-Blocks.thoriumReactor.liquidCapacity: 400f
-Blocks.hyperProcessor.liquidCapacity: 400f
+block.impact-reactor.liquidCapacity: 400f
+block.thorium-reactor.liquidCapacity: 400f
+block.hyper-processor.liquidCapacity: 400f
+
+block.ripple.ammoTypes.graphite.buildingDamageMultiplier: 0.2
+block.ripple.ammoTypes.pyratite.buildingDamageMultiplier: 0.2
+block.ripple.ammoTypes.blast-compound.buildingDamageMultiplier: 0.2
+block.ripple.ammoTypes.silicon.buildingDamageMultiplier: 0.2
+block.ripple.ammoTypes.plastanium.buildingDamageMultiplier: 0.2

@@ -22,7 +22,8 @@ repositories {
 apply from: "$workspacePath/.cache/tools/buildscript/shared.repos.gradle"
 
 dependencies {
-    compileOnly libs.bundles.mindustry
+    //compileOnly libs.bundles.mindustry
+    compileOnly files("$workspacePath/.bin/server-release.jar")
     compileOnly libs.kotlin.coro
     compileOnly libs.kotlin.reflect
 

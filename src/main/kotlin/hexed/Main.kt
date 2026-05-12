@@ -19,6 +19,17 @@ class Main : Plugin() {
         CorePlugin.init(javaClass.classLoader.prefixed("hexed"))
         Gamemode.maps = HexMapManager()
 
+        Gamemode.defaultPatch = { "name: hexed patch\n" +
+            "block.impact-reactor.liquidCapacity: 400f\n" +
+            "block.thorium-reactor.liquidCapacity: 400f\n" +
+            "block.hyper-processor.liquidCapacity: 400f\n" +
+            "\n" +
+            "block.ripple.ammoTypes.graphite.buildingDamageMultiplier: 0.2\n" +
+            "block.ripple.ammoTypes.pyratite.buildingDamageMultiplier: 0.2\n" +
+            "block.ripple.ammoTypes.blast-compound.buildingDamageMultiplier: 0.2\n" +
+            "block.ripple.ammoTypes.silicon.buildingDamageMultiplier: 0.2\n" +
+            "block.ripple.ammoTypes.plastanium.buildingDamageMultiplier: 0.2" }
+
         // Assigned players to derelict team by default
         Vars.netServer.assigner = TeamAssigner { _, _ -> Team.derelict }
 
