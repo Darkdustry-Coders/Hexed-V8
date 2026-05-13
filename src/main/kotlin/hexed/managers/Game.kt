@@ -11,6 +11,7 @@ import hexed.Config
 import hexed.Renderer
 import hexed.generation.Generator
 import hexed.generation.Generators
+import mindurka.api.RoundEndEvent
 import mindustry.Vars
 import mindustry.game.EventType
 import mindustry.game.EventType.GameOverEvent
@@ -37,7 +38,6 @@ object Game {
     )
 
     init {
-
         Events.run(EventType.Trigger.update) {
             update()
             Team.derelict.data().cores.each(Cons { core -> core.tile.removeNet() })
@@ -109,7 +109,10 @@ object Game {
         restarting = true
 
         Timer.schedule({ Renderer.showEndGameMessage() }, 2f)
-        Timer.schedule({ generate(Generators.random(generator)) }, 12f)
+        Timer.schedule({
+            Events.fire(RoundEndEvent)
+            generate(Generators.random(generator))
+        }, 12f)
     }
 
     fun generate(generator: Generator) {
@@ -136,6 +139,8 @@ object Game {
         generator = nextGenerator
         // For RTV, just load the world without a full reload
         Vars.world.loadGenerator(Config.WIDTH, Config.HEIGHT, generator::generate)
+
+        Vars.logic.play()
     }
 }
 
