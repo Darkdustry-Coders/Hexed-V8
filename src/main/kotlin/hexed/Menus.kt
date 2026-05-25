@@ -11,6 +11,7 @@ import hexed.structures.Member
 import hexed.structures.Party
 import hexed.utils.PartyUtils
 import mindurka.ui.openMenu
+import mindurka.util.Async
 import mindurka.util.K
 
 const val pageSize = 6
@@ -29,7 +30,7 @@ class JoinMenu(val caller: Member) {
         val maxPage = Mathf.ceil(parties.size.toFloat() / pageSize)
         var page = startPage.coerceIn(1, maxPage)
 
-        caller.player.openMenu {
+        Async.run { caller.player.openMenu {
             if (parties.isEmpty) {
                 Timer.schedule({closeDialog()}, 1f)
             }
@@ -78,7 +79,7 @@ class JoinMenu(val caller: Member) {
             }
 
             option("{generic.close}") { K.toString() }
-        }
+        } }
     }
 
     enum class JoinState {
@@ -101,7 +102,7 @@ class AcceptMenu(val caller: Member) {
         val maxPage = Mathf.ceil(members.size.toFloat() / pageSize)
         var page = startPage.coerceIn(1, maxPage)
 
-        caller.player.openMenu {
+        Async.run { caller.player.openMenu {
             title("{commands.accept.title}")
 
             val start = (page - 1) * pageSize
@@ -146,7 +147,7 @@ class AcceptMenu(val caller: Member) {
             }
 
             option("{generic.close}") { K.toString() }
-        }
+        } }
     }
 
     enum class AcceptState {

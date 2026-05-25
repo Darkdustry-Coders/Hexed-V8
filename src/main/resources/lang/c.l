@@ -53,7 +53,7 @@ game = Returning to the game.
 spectator = Switching to spectator mode.
 
 [commands.join]
-description = Invite to join a team.
+description = Request to join a team.
 params =
 title = Available players
 sent = {player}[white] wants to join your team.
