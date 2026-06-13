@@ -28,7 +28,7 @@ object HexUtils {
                     )
                 ) continue
 
-                val tile = Vars.world.tile(x + cx, y + cy) ?: return
+                val tile = Vars.world.tile(x + cx, y + cy) ?: continue
                 if (filter.get(tile)) cons.get(tile)
             }
         }
