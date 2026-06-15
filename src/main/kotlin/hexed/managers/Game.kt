@@ -75,7 +75,7 @@ object Game {
         if (restarting) return
         if (Groups.player.isEmpty) return
 
-        Hexes.update()
+        // Hexes.update()
 
         if (interval.get(0, Config.HUD_TIME))
             Renderer.showHudText()

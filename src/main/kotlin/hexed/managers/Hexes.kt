@@ -1,36 +1,53 @@
 package hexed.managers
 
-import arc.Events
 import arc.math.geom.Position
 import arc.struct.Seq
+import arc.util.Log
 import hexed.structures.Hex
 import hexed.utils.HexUtils.getHexes
+import mindurka.api.on
+import mindustry.game.EventType.PickupEvent
+import mindustry.game.EventType.PayloadDropEvent
 import mindustry.game.EventType.BlockBuildEndEvent
 import mindustry.game.EventType.BlockDestroyEvent
-import mindustry.game.EventType.CoreChangeEvent
+import mindustry.world.blocks.ConstructBlock.ConstructBuild
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild
+import kotlin.Unit as Nada
 
 object Hexes : Manager {
     val hexes: Seq<Hex> = Seq()
 
     init {
-        Events.on(BlockBuildEndEvent::class.java) {
+        on { it: BlockBuildEndEvent ->
             if (it.tile.build == null) return@on
             val hex = getHex(it.tile) ?: return@on
 
-            hex.requestUpdate() // Update hex controller
+            it.tile.build?.let { build ->
+                val block = if (build is ConstructBuild) build.current else build.block
+                if (!it.breaking && build is ConstructBuild)
+                    Log.warn("Literally how the fuck (not breaking && build = ConstructBuild)")
+                if (it.breaking) hex.blockDestroyed(block, build.team)
+                else hex.blockCreated(block, build.team);
+                Nada
+            } ?: Log.warn("Created a non-building")
+            // hex.requestUpdate() // Update hex controller
         }
 
-        Events.on(CoreChangeEvent::class.java) {
-            val hex = getHex(it.core) ?: return@on
+        // on { it: CoreChangeEvent ->
+        //     val hex = getHex(it.core) ?: return@on
 
-            hex.requestUpdate() // Update hex controller
-        }
+        //     // hex.requestUpdate() // Update hex controller
+        // }
 
-        Events.on(BlockDestroyEvent::class.java) {
+        on { it: BlockDestroyEvent ->
             val hex = getHex(it.tile) ?: return@on
 
-            hex.requestUpdate() // Update hex controller
+            it.tile.build?.let { build ->
+                if (build is ConstructBuild) return@let
+                hex.blockDestroyed(build.block, build.team);
+                Nada
+            } ?: Log.warn("Destroyed a non-building")
+            // hex.requestUpdate() // Update hex controller
 
             val core = it.tile.build as? CoreBuild ?: return@on
             val defender = Session.parties[core.team] ?: return@on
@@ -44,6 +61,16 @@ object Hexes : Manager {
                 attacker?.kills++
             }
         }
+
+        on { it: PayloadDropEvent -> it.build?.let { build ->
+            val hex = getHex(build.tile) ?: return@on
+            hex.blockDestroyed(build.block, build.team);
+        } }
+
+        on { it: PickupEvent -> it.build?.let { build ->
+            val hex = getHex(build.tile) ?: return@on
+            hex.blockCreated(build.block, build.team);
+        } }
     }
 
     override fun play() {
@@ -54,9 +81,9 @@ object Hexes : Manager {
         hexes.clear()
     }
 
-    fun update() {
-        hexes.each { it.update() }
-    }
+    // fun update() {
+    //     hexes.each { it.update() }
+    // }
 
     fun getHex(position: Position): Hex? = hexes.find { it.contains(position) }
 }

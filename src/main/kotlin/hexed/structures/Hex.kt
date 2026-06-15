@@ -6,6 +6,7 @@ import arc.math.Mathf
 import arc.math.geom.Intersector
 import arc.math.geom.Position
 import arc.struct.IntSeq
+import arc.util.Log
 import hexed.Config
 import hexed.utils.HexUtils
 import hexed.managers.Game
@@ -20,10 +21,11 @@ import mindustry.world.blocks.storage.CoreBlock.CoreBuild
 
 import hexed.Config.RADIUS
 import mindustry.entities.Damage
+import mindustry.world.Block
 import java.util.Arrays
 
 class Hex(val x: Int, val y: Int, val id: Int) : Position {
-    val progress = IntSeq(IntArray(256))
+    val progress = IntArray(256)
     var owner: Party? = null
     var needsUpdate: Boolean = false
 
@@ -34,9 +36,38 @@ class Hex(val x: Int, val y: Int, val id: Int) : Position {
         needsUpdate = true
     }
 
+    fun blockCreated(block: Block, team: Team) {
+        if (team == Team.derelict) return
+        if (hasCore) return
+
+        progress[team.id] += block.buildTime.toInt() * block.size
+
+        Log.info(block.name)
+
+        if (progress[team.id] >= Config.PROGRESS_REQUIREMENT) {
+            Vars.world.tile(x, y).setNet(Game.generator.planet.defaultCore, team, 0)
+            progress.fill(0)
+            owner = Session.parties[team]
+        }
+    }
+
+    fun blockDestroyed(block: Block, team: Team) {
+        if (team == Team.derelict) return
+        if (hasCore) return
+
+        Log.info(block.name)
+
+        progress[team.id] -= block.buildTime.toInt() * block.size
+        if (progress[team.id] < 0) {
+            Log.warn("Somehow reached <0 progress? Server is bugged.")
+            progress[team.id] = 0
+        }
+    }
+
+    @Deprecated("Use update events instead.")
     fun update() {
         needsUpdate = false
-        updateProgress()
+        // updateProgress()
 
         val team = getTeam()
 
@@ -45,9 +76,8 @@ class Hex(val x: Int, val y: Int, val id: Int) : Position {
 
         if (owner!!.controlled > 1) owner!!.active = true
 
-        if (hasCore) return
-        Vars.world.tile(x, y).setNet(Game.generator.planet.defaultCore, team, 0)
-
+        // if (hasCore) return
+        // Vars.world.tile(x, y).setNet(Game.generator.planet.defaultCore, team, 0)
     }
 
     fun getTeam(): Team {
@@ -63,6 +93,7 @@ class Hex(val x: Int, val y: Int, val id: Int) : Position {
 
     fun destroy(defender: Team, attacker: Team?) {
         if (attacker == Team.derelict) return
+        progress.fill(0)
 
         //Damage.dynamicExplosion(x.toFloat(), y.toFloat(), 10f, 10f, 10f, RADIUS.toFloat(), true)
 
@@ -82,15 +113,15 @@ class Hex(val x: Int, val y: Int, val id: Int) : Position {
 
     // region progress
 
-    fun updateProgress() {
-        if (hasCore) return
-        Arrays.fill(progress.items, 0)
+    // fun updateProgress() {
+    //     if (hasCore) return
+    //     Arrays.fill(progress.items, 0)
 
-        HexUtils.iterateHex(
-            x, y, RADIUS,
-            { it?.build != null },
-            { it?.let { progress.incr(it.team().id, it.block().buildTime.toInt()) } })
-    }
+    //     HexUtils.iterateHex(
+    //         x, y, RADIUS,
+    //         { it?.build != null },
+    //         { it?.let { progress.incr(it.team().id, it.block().buildTime.toInt()) } })
+    // }
 
     fun getProgress(team: Team) = progress.get(team.id)
 

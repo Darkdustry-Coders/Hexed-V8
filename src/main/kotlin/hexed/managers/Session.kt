@@ -172,7 +172,7 @@ object Session : Manager {
 
         createParty(member, team)
 
-        hex.update() // Update hex controller
+        // hex.update() // Update hex controller
 
         // Poor mobile players
         Call.setCameraPosition(member.player.con, hex.getX(), hex.getY())
