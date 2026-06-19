@@ -10,7 +10,7 @@ import mindustry.maps.filters.GenerateFilter
 import mindustry.maps.filters.GenerateFilter.GenerateInput
 import mindustry.world.Block
 
-class SerpuloGenerator : Generator {
+open class SerpuloGenerator : Generator {
     constructor(shapes: ShapesImpl, name: String, filler: Block, vararg filters: GenerateFilter) : super(
         shapes, name, Planets.serpulo, Config.serpuloBase, { rules -> Config.serpuloRules.get(rules) }, filler, *filters
     )

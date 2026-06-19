@@ -108,6 +108,7 @@ abstract class Generator(
     fun applyRules(rules: Rules) {
         planet.applyRules(rules)
         Config.defaultRules.get(rules) // First apply default rules
+        Shapes.applyRules(rules)
         ruleSetter.get(rules) // Then apply custom rules
     }
 

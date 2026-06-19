@@ -12,6 +12,7 @@ import mindustry.game.EventType.PickupEvent
 import mindustry.game.EventType.PayloadDropEvent
 import mindustry.game.EventType.BlockBuildEndEvent
 import mindustry.game.EventType.BlockDestroyEvent
+import mindustry.game.Rules
 import mindustry.world.blocks.ConstructBlock.ConstructBuild
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild
 import kotlin.Unit as Nada
@@ -31,6 +32,8 @@ interface ShapesImpl: Manager {
     fun iterateShape(x: Int, y: Int, radius: Int, filter: Boolf<Tile?>, cons: Cons<Tile?>)
 
     fun carvePaths(tiles: Tiles)
+
+    fun applyRules(rules: Rules) {}
 }
 
 fun initShapes() {

@@ -7,6 +7,7 @@ import hexed.managers.Octets
 import mindustry.maps.filters.NoiseFilter
 import mindustry.maps.filters.BlendFilter
 import mindustry.content.Blocks.*
+import mindustry.maps.filters.GenerateFilter
 import mindustry.maps.filters.RiverNoiseFilter
 import mindustry.maps.filters.ScatterFilter
 
@@ -259,80 +260,114 @@ object Generators {
 
         )
 
-    val oceanFloor = SerpuloGenerator(
-        Hexes, "Ocean Floor", basalt,
+    val oceanFloor = object : SerpuloGenerator(
+        Hexes, "Ocean Floor", darksand,
 
         RiverNoiseFilter().apply {
+            target = darksand
             floor = darksandWater
             floor2 = water
             block = purbush
+
+            scl = 32.43f
+            threshold = 0.02f
+            threshold2 = 0.13f
+            octaves = 1.93f
+            falloff = 1f
         },
         NoiseFilter().apply {
+            target = darksand
             floor = darksandWater
-            block = purbush
-            target = basalt
+            block = duneWall
 
-            scl = 24.95f
-            threshold = 0.61f
-            octaves = 4.36f
-            falloff = 0.31f
-            tilt = 0.24f
+            scl = 44.91f
+            threshold = 0.6f
+            octaves = 1.12f
+            falloff = 0.24f
+            tilt = 0.4f
         },
         NoiseFilter().apply {
             floor = shale
             block = shaleWall
-            target = basalt
+            target = darksand
 
-            falloff = 0.7f
-            scl = 80f
-            threshold = 0.53f
-            octaves = 7f
+            scl = 34.93f
+            threshold = 0.69f
+            octaves = 3.28f
+            falloff = 0.24f
+            tilt = -0.04f
         },
-        NoiseFilter().apply {
-            target = basalt
-            block = carbonWall
-            floor = carbonStone
-        },
-        ScatterFilter().apply {
-            flooronto = basalt
-            floor = darksand
-            chance = 0.3f
+    ) {
+        override fun generateOres(input: GenerateFilter.GenerateInput) {
+            applyFilters(input, *getOreFilters(
+                -0.06f,
+                10f,
+                oreCopper,
+                oreLead,
+                oreScrap,
+                oreCoal,
+                oreTitanium,
+                oreThorium
+            ),
+            )
         }
-    )
+    }
 
     val quartz = SerpuloGenerator(
         Octets, "Quartz", salt,
 
         RiverNoiseFilter().apply {
+            floor = redIce
+            block = redIceWall
+
+            scl = 24.95f
+            threshold = 0.11f
+            threshold2 = 1f
+            octaves = 1f
+            falloff = 1f
+        },
+        RiverNoiseFilter().apply {
             floor = ice
             block = iceWall
 
-            scl = 32.43f
-            threshold = -0.2f
+            scl = 24.95f
+            threshold = 0.11f
             threshold2 = 1f
             octaves = 1f
             falloff = 1f
         },
         NoiseFilter().apply {
             floor = darksand
-            block = duneWall
+            block = air
 
-            scl = 17.46f
+            scl = 27.44f
             threshold = 0.63f
-            octaves = 2.92f
-            falloff = 0.5f
-            tilt = 0.32f
+            octaves = 5.13f
+            falloff = 0.34f
+            tilt = 0.36f
         },
         ScatterFilter().apply {
+            flooronto = darksand
             floor = tar
             block = air
-            flooronto = darksand
 
-            chance = 0.33f
-        }
+            chance = 0.02f
+        },
+        RiverNoiseFilter().apply {
+            target = darksand
+            floor = tar
+            block = air
+
+            scl = 49.9f
+            threshold = -0.02f
+            threshold2 = 1f
+            octaves = 1f
+            falloff = 0.55f
+        },
     )
 
-    val generators: Seq<Generator> = Seq<Generator>().addAll(tarFields, volcano, spores, winter, erekir, oceanFloor, quartz)
+    val generators: Seq<Generator> = Seq<Generator>().addAll(tarFields, volcano, spores, winter, erekir,
+        oceanFloor, quartz)
     //val generators: Seq<Generator> = Seq<Generator>().addAll(erekir)
 
     fun random(previous: Generator?): Generator {

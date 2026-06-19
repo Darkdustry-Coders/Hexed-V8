@@ -13,6 +13,7 @@ import hexed.Config
 import hexed.structures.Octet
 import hexed.structures.Shape
 import mindustry.Vars
+import mindustry.game.Rules
 import mindustry.world.Tile
 import mindustry.world.Tiles
 import kotlin.math.absoluteValue
@@ -66,5 +67,9 @@ object Octets: ShapesImpl {
                 }
             }
         }
+    }
+
+    override fun applyRules(rules: Rules) {
+        rules.enemyCoreBuildRadius *= 1.08f // no, this is not an arbitrary number.
     }
 }
